@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Список товаров</title>
+</head>
+<body>
+<h3>Доступные товары</h3>
+<h3>Сортировка ,поиск, фильтрация</h3>
+<form th:method="POST" th:action="@{/product/search}">
+    <fieldset>
+        <legend>Выберите параметры для сортировки,поиска,фильтрации: </legend>
+        <label for="search">Поиск по наименованию</label>
+        <input type="text" id="search" name="search" th:value="*{value_search}">
+        <br>
+        <p>Цена ,Р</p>
+        <label for="ot">От </label>
+        <input type="text" id="ot" name="ot" th:value="*{value_price_ot}">
+        <label for="do">До </label>
+        <input type="text" id="do" name="do" th:value="*{value_price_do}">
+        <br>
+        <div>
+            <input type="radio" id="ascending_price" name="price" value="sorted_by_ascending_price" >
+            <label for="ascending_price">Отсортировать по возрастанию цены</label>
+            <input type="radio" id="descending_price" name="price" value="sorted_by_descending_price">
+            <label for="descending_price">Отсортировать по убыванию цены</label>
+            <p>Категория товаров: </p>
+            <input type="radio" id="tea" name="contract" value="tea">
+            <label for="tea">Чай</label>
+            <input type="radio" id="coffee" name="contract" value="coffee">
+            <label for="coffee">Кофе</label>
+            <input type="radio" id="cacao" name="contract" value="cacao">
+            <label for="cacao">Какао</label>
+            <input type="radio" id="healthy_foods" name="contract" value="healthy_foods">
+            <label for="healthy_foods">Полезные продукты</label>
+            <br>
+            <br>
+            <input type="submit" value="Найти">
+        </div>
+    </fieldset>
+</form>
+<hr>
+<h3>Результат поиска , сортировки , фильтрации</h3>
+<div th:each="product : ${search_product}">
+    <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="300px">
+    <br>
+    <a th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"></a>
+    <p th:text="'Цена: '+ ${product.getPrice()} + ' руб./' + ${product.getWeight()} + ' гр.'"></p>
+    <a th:href="@{/cart/add/{id}(id=${product.getId()})}">Добавить товар в корзину</a>
+    <hr>
+</div>
+<h3>Товары</h3>
+<div th:each="product : ${products}">
+  <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="300px">
+  <br>
+  <a th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"></a>
+    <p th:text="'Цена: '+ ${product.getPrice()} + ' руб./' + ${product.getWeight()} + ' гр.'"></p>
+    <a th:href="@{/cart/add/{id}(id=${product.getId()})}">Добавить товар в корзину</a>
+    <hr>
+</div>
+</body>
+</html>

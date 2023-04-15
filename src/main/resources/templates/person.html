@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Информация о пользователях</title>
+<!--  <style>-->
+<!--    table, th, td {-->
+<!--      border: 1px solid black;-->
+<!--      border-collapse: collapse;-->
+<!--    }-->
+<!--    th, td {-->
+<!--      padding-left: 40px;-->
+<!--      padding-top: 5px;-->
+
+<!--    }-->
+<!--    th {-->
+<!--      text-align: left;-->
+<!--    }-->
+<!--    table#t01 tr:nth-child(even) {-->
+<!--      background-color: #eee;-->
+<!--    }-->
+<!--    table#t01 tr:nth-child(odd) {-->
+<!--      background-color: #fff;-->
+<!--    }-->
+<!--    table#t01 th {-->
+<!--      color: white;-->
+<!--      background-color: #5e739f;-->
+<!--    }-->
+<!--    caption{-->
+<!--      font-weight: bold;-->
+<!--      font-size: 24px;-->
+<!--    }-->
+<!--  </style>-->
+</head>
+<body>
+<form method="get" th:action="@{/admin}">
+  <button type="submit">В личный кабинет</button>
+</form>
+<br>
+<br>
+<hr>
+<table style="width: 100%" id="t01">
+  <caption>Информация о пользователях</caption>
+  <tr>
+    <th>Id</th>
+    <th>Логин</th>
+    <th>Роль</th>
+  </tr>
+<div th:each="person : ${person}">
+  <tr>
+<td><p  th:text="${person.getId()} "></p></td>
+  <td><p  th:text=" ${person.getLogin()}  "></p></td>
+  <td><p  th:text="${person.getRole()} "></p></td>
+  </tr>
+</div>
+</table>
+</body>
+</html>
