@@ -6,20 +6,84 @@
     <link th:href="@{/css/index.css}" type="text/css" rel="stylesheet">
 </head>
 <body>
-<h3>Вход</h3>
-<form th:method="post" action="/process_login">
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-  <label for="username">Введите логин: </label>
-  <input type="text" placeholder="Введите логин" name="username" id="username">
-  <br>
-  <label for="password">Введите пароль: </label>
-  <input type="password" placeholder="Введите пароль" name="password" id="password">
-  <br>
-  <input type="submit" value="Войти">
-
-</form>
-<div th:if="${param.error}" style="color: red">Неправильный логин или пароль</div>
-<br>
-<a href="/registration">Зарегистрироваться</a>
+<div class="body">
+<header class="header">
+    <div class="h1">
+        <div>
+            <h1 style="font-family: 'Neucha', cursive;">Чайный домик</h1>
+        </div>
+        <div class="tel">
+            <div class="tel1">
+                <p>Телефон:</p>
+                <p>8-909-200-08-08</p>
+            </div>
+            <div class="tel1">
+                <p>Почта:</p>
+                <p>teahouse@mail.ru</p>
+            </div>
+        </div>
+    </div>
+    <div class="head">
+        <form method="get" th:action="@{/authentication}">
+            <input class="button1" type="submit" value="Вход">
+        </form>
+        <form method="get" th:action="@{/registration}">
+            <input class="button1" type="submit" value="Зарегистрироваться">
+        </form>
+    </div>
+</header>
+<main class="main">
+    <div class="mainP">
+        <div class="formAuthA">
+            <form th:method="post" action="/process_login">
+                <div class="vh">
+                    <h3>Вход в личный кабинет</h3>
+                    <a class="btn2" th:href="@{/registration}" type="submit">Регистрация</a>
+                </div>
+                <hr>
+                <div class="vh">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                    <label for="username">Введите логин:</label>
+                    <input type="text" placeholder="Введите логин" name="username" id="username"></div>
+                <br>
+                <div class="vh">
+                    <label for="password">Введите пароль:</label>
+                    <input type="password" placeholder="Введите пароль" name="password" id="password">
+                </div>
+                <br>
+                <input class="button2" type="submit" value="Войти">
+                <div th:if="${param.error}" style="color: red">Неправильный логин или пароль</div>
+            </form>
+        </div>
+    </div>
+</main>
+<footer class="footer">
+    <ul>
+        <li>Компания</li>
+        <li>О компании</li>
+        <li>Новости</li>
+        <li>Политика</li>
+        <li>Публичная оферта</li>
+    </ul>
+    <ul>
+        <li>Информация</li>
+        <li>Как сделать заказ</li>
+        <li>Оплаты</li>
+        <li>Доставка</li>
+        <li>Гарантия</li>
+    </ul>
+    <ul>
+        <li>Популярные категории</li>
+        <li>Какао</li>
+        <li>Кофе</li>
+        <li>Чай</li>
+    </ul>
+    <ul>
+        <li>О чае и кофе</li>
+        <li>Помощь</li>
+        <li>Вопрос-ответ</li>
+    </ul>
+</footer>
+</div>
 </body>
 </html>

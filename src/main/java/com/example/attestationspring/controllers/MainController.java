@@ -2,10 +2,7 @@ package com.example.attestationspring.controllers;
 
 
 import com.example.attestationspring.enumm.Status;
-import com.example.attestationspring.models.Cart;
-import com.example.attestationspring.models.Order;
-import com.example.attestationspring.models.Person;
-import com.example.attestationspring.models.Product;
+import com.example.attestationspring.models.*;
 import com.example.attestationspring.repositories.CartRepository;
 import com.example.attestationspring.repositories.OrderRepository;
 import com.example.attestationspring.repositories.ProductRepository;
@@ -29,17 +26,13 @@ import java.util.UUID;
 public class MainController {
 
     private final ProductRepository productRepository;
-
     private final ProductService productService;
-
     private final PersonService personService;
-
     private final PersonValidator personValidator;
-
     private final CartRepository cartRepository;
     private final OrderRepository orderRepository;
 
-    public MainController(ProductRepository productRepository, ProductService productService, PersonService personService, PersonValidator personValidator, CartRepository cartRepository, OrderRepository orderRepository) {
+    public MainController( ProductRepository productRepository, ProductService productService, PersonService personService, PersonValidator personValidator, CartRepository cartRepository, OrderRepository orderRepository) {
         this.productRepository = productRepository;
         this.productService = productService;
         this.personService = personService;
@@ -91,7 +84,7 @@ public class MainController {
         return "/user/infoProduct";
 
     }
-    @PostMapping("/person_account/product/search")
+    @PostMapping("/product/product/search")
     public String productSearch(@RequestParam("search") String search, @RequestParam("ot")String ot, @RequestParam("do")String Do, @RequestParam(value = "price",required = false,defaultValue = "")String price, @RequestParam(value = "contract",required = false,defaultValue = "")String contract, Model model){
         model.addAttribute("products",productService.getAllProduct());
 
@@ -206,15 +199,12 @@ public class MainController {
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
         //Извлекаем id пользователя из объекта
         int id_person = personDetails.getPerson().getId();
-
         List<Cart> cartList = cartRepository.findByPersonId(id_person);
         List<Product> productList =new ArrayList<>();
-
         //Получаем товары из корзины по id
         for(Cart cart: cartList){
             productList.add(productService.getProductId(cart.getProductId()));
         }
-
         //Вычесление итоговой цены
         float price=0;
         for(Product product: productList){
@@ -223,10 +213,14 @@ public class MainController {
 
         String uuid = UUID.randomUUID().toString();
         for(Product product : productList){
-            Order newOrder = new Order(uuid,product,personDetails.getPerson(),1,product.getPrice(), Status.Ожидает);
+            Order newOrder = new Order(uuid,product,personDetails.getPerson(),1,product.getPrice(), Status.Оформлен);
             orderRepository.save(newOrder);
             cartRepository.deleteCartByProductId(product.getId());
         }
+//        if(price>0){
+//            OrderPerson newOrderPerson = new OrderPerson(uuid,personDetails.getPerson(),price,Status.Оформлен);
+//            orderPersonRepository.save(newOrderPerson);
+//        }
         return "redirect:/orders";
     }
 
@@ -239,6 +233,75 @@ public class MainController {
         return "/user/orders";
     }
 
+    @GetMapping("/orders/delete")
+    public String orderDelete(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); //получаем пользователя который аутентифицыровался
+        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+        int id_person = personDetails.getPerson().getId();
+//        orderPersonRepository.deleteOrderPersonById(id_person);//удаляем лист заказов по id пользователя
+        List<Order> orderList = orderRepository.findByPerson(personDetails.getPerson());
+        model.addAttribute("orders",orderList);
+        return "/user/orders";
+    }
 
+
+    @GetMapping("/product_personal/info/{id}")
+    public String infoProducts(@PathVariable("id") int id, Model model){
+        model.addAttribute("product_personal",productService.getProductId(id));
+        return "/user/infoProduct";
+
+    }
+
+
+
+    @PostMapping("/person_account/search")
+    public String productSearchq(@RequestParam("search") String search, @RequestParam("ot")String ot, @RequestParam("do")String Do, @RequestParam(value = "price",required = false,defaultValue = "")String price, @RequestParam(value = "contract",required = false,defaultValue = "")String contract, Model model){
+        model.addAttribute("products",productService.getAllProduct());
+
+        if(!ot.isEmpty() & !Do.isEmpty()){
+            if(!price.isEmpty()){
+                if(price.equals("sorted_by_ascending_price")){
+                    if (contract.isEmpty()){
+                        if (!contract.equals("tea")){
+                            model.addAttribute("search_product",productRepository.findByTitleAndCategoryOrderByPriceAsc(search.toLowerCase(),Float.parseFloat(ot),Float.parseFloat(Do),1));
+                        } else if (contract.equals("coffee")) {
+                            model.addAttribute("search_product",productRepository.findByTitleAndCategoryOrderByPriceAsc(search.toLowerCase(),Float.parseFloat(ot),Float.parseFloat(Do),2));
+
+                        }else if(contract.equals("cacao")){
+                            model.addAttribute("search_product",productRepository.findByTitleAndCategoryOrderByPriceAsc(search.toLowerCase(),Float.parseFloat(ot),Float.parseFloat(Do),3));
+                        } else if (contract.equals("healthy_foods")) {
+                            model.addAttribute("search_product",productRepository.findByTitleAndCategoryOrderByPriceAsc(search.toLowerCase(),Float.parseFloat(ot),Float.parseFloat(Do),4));
+                        }
+                    }else {
+                        model.addAttribute("search_product",productRepository.findByTitleOrderByPriceAsc(search.toLowerCase(),Float.parseFloat(ot),Float.parseFloat(Do)));
+                    }
+                }else if(price.equals("sorted_by_descending_price")){
+                    if(!contract.isEmpty()){
+                        if(contract.equals("tea")){
+                            model.addAttribute("search_product",productRepository.findByTitleAndCategoryOrderByPriceDesc(search.toLowerCase(),Float.parseFloat(ot),Float.parseFloat(Do),1));
+                        }else if (contract.equals("coffee")) {
+                            model.addAttribute("search_product",productRepository.findByTitleAndCategoryOrderByPriceDesc(search.toLowerCase(),Float.parseFloat(ot),Float.parseFloat(Do),2));
+
+                        }else if(contract.equals("cacao")){
+                            model.addAttribute("search_product",productRepository.findByTitleAndCategoryOrderByPriceDesc(search.toLowerCase(),Float.parseFloat(ot),Float.parseFloat(Do),3));
+                        } else if (contract.equals("healthy_foods")) {
+                            model.addAttribute("search_product",productRepository.findByTitleAndCategoryOrderByPriceDesc(search.toLowerCase(),Float.parseFloat(ot),Float.parseFloat(Do),4));
+                        }
+                    }else {
+                        model.addAttribute("search_product",productRepository.findByTitleOrderByPriceDesc(search.toLowerCase(),Float.parseFloat(ot),Float.parseFloat(Do)));
+                    }
+                }
+            }else {
+                model.addAttribute("search_product",productRepository.findByTitleAndPriceGreaterThanEqualAndPriceLessThanEqual(search.toLowerCase(),Float.parseFloat(ot),Float.parseFloat(Do)));
+            }
+        }else {
+            model.addAttribute("search_product",productRepository.findByTitleContainingIgnoreCase(search));
+        }
+
+        model.addAttribute("value_search",search);
+        model.addAttribute("value_price_ot",ot);
+        model.addAttribute("value_price_do",Do);
+        return "/user/index";
+    }
 
 }

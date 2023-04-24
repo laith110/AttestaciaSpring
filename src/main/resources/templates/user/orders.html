@@ -3,22 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <title>Заказы</title>
+    <link th:href="@{/css/index.css}" type="text/css" rel="stylesheet">
 </head>
 <body>
-<h3>Заказы</h3>
-<br>
-<form method="get" th:action="@{/personal_account}">
-    <button type="submit">В личный кабинет</button>
-</form>
-<div th:each="order : ${orders}">
-  <h3 th:text="'Заказ №: '+ ${order.getNumber()}"></h3>
-  <img th:src="'/img/' + ${order.getProduct().getImageList()[0].getFileName()}" width="300px">
-  <p th:text="'Наименование: ' + ${order.getProduct().getTitle()}"></p>
-  <p th:text="'Количество: ' + ${order.getCount()}"></p>
-  <p th:text="'Цена: ' + ${order.getPrice()}"></p>
-  <p th:text="'Дата заказа: ' + ${#temporals.format(order.getDateTime(),'dd-MMM-yyyy')}"></p>
-  <p th:text="'Статус заказа: ' + ${order.getStatus()}"></p>
+<div class="body">
+    <header class="header">
+        <div class="h1">
+            <div>
+                <h1 style="font-family: 'Neucha', cursive;">Чайный домик</h1>
+            </div>
+            <div class="tel">
+                <div class="tel1">
+                    <p>Телефон:</p>
+                    <p>8-909-200-08-08</p>
+                </div>
+                <div class="tel1">
+                    <p>Почта:</p>
+                    <p>teahouse@mail.ru</p>
+                </div>
+            </div>
+        </div>
+        <div class="head">
+            <form method="get" th:action="@{/cart}">
+                <button class="button1" type="submit">Корзина</button>
+            </form>
+            <br>
+            <form method="get" th:action="@{/orders}">
+                <input class="button1" type="submit" value="Заказы">
+            </form>
+            <br>
+            <form method="get" th:action="@{/personal_account}">
+                <button class="button1" type="submit">В личный кабинет</button>
+            </form>
+        </div>
+        <br>
+    </header>
+    <main class="main">
+        <div class="h2">
+            <h3>Заказы</h3>
+        </div>
 
+        <div class="prodSort ">
+            <div class="zak" th:each="order : ${orders}">
+                <h3 th:text="'Заказ №: '+ ${order.getNumber()}"></h3>
+                <img th:src="'/img/' + ${order.getProduct().getImageList()[0].getFileName()}" width="200px">
+                <p th:text="'Наименование: ' + ${order.getProduct().getTitle()}"></p>
+                <p th:text="'Количество: ' + ${order.getCount()}"></p>
+                <p th:text="'Цена: ' + ${order.getPrice()}"></p>
+                <p th:text="'Дата заказа: ' + ${#temporals.format(order.getDateTime(),'dd-MMM-yyyy')}"></p>
+                <p th:text="'Статус заказа: ' + ${order.getStatus()}"></p>
+                <p th:text="'Пользователь: ' + ${order.getPerson().getLogin()}"></p>
+                <br>
+            </div>
+        </div>
+
+    </main>
+    <footer class="footer">
+
+        <ul>
+            <li>Компания</li>
+            <li>О компании</li>
+            <li>Новости</li>
+            <li>Политика</li>
+            <li>Публичная оферта</li>
+        </ul>
+        <ul>
+            <li>Информация</li>
+            <li>Как сделать заказ</li>
+            <li>Оплаты</li>
+            <li>Доставка</li>
+            <li>Гарантия</li>
+        </ul>
+        <ul>
+            <li>Популярные категории</li>
+            <li>Какао</li>
+            <li>Кофе</li>
+            <li>Чай</li>
+        </ul>
+        <ul>
+            <li>О чае и кофе</li>
+            <li>Помощь</li>
+            <li>Вопрос-ответ</li>
+        </ul>
+    </footer>
 </div>
 </body>
 </html>

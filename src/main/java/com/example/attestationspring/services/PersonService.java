@@ -2,6 +2,7 @@ package com.example.attestationspring.services;
 
 import com.example.attestationspring.models.Person;
 import com.example.attestationspring.repositories.PersonRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,7 @@ public class PersonService {
     private final PersonRepository personRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @Autowired
     public PersonService(PersonRepository personRepository, PasswordEncoder passwordEncoder) {
         this.personRepository = personRepository;
         this.passwordEncoder = passwordEncoder;
@@ -33,5 +35,9 @@ public class PersonService {
     }
     public List<Person> getAllUser(){
         return personRepository.findAll();
+    }
+    public Person getPersonId(int id){
+        Optional<Person> optionalPerson = personRepository.findById(id);
+        return optionalPerson.orElse(null);
     }
 }

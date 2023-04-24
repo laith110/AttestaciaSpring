@@ -3,23 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <title>Регистрация</title>
+    <link th:href="@{/css/index.css}" type="text/css" rel="stylesheet">
 </head>
 <body>
-<h3>Регистрация</h3>
-<form method="post" th:action="@{/registration}" th:object="${person}">
-  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-<label for="login">Введите логин: </label>
-  <input type="text" th:field="*{login}" id="login">
-  <div style="color: red" th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></div>
-  <br>
-  <label for="password">Введите пароль: </label>
-  <input type="password" th:field="*{password}" id="password">
-  <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
-  <br>
-  <input type="submit" value="Зарегистрироваться">
-    <br>
-    <br>
-    <a href="/authentication">Вход</a>
-</form>
+<div class="body">
+<header class="header">
+    <div class="h1">
+        <div>
+            <h1 style="font-family: 'Neucha', cursive;">Чайный домик</h1>
+        </div>
+        <div class="tel">
+            <div class="tel1">
+                <p>Телефон:</p>
+                <p>8-909-200-08-08</p>
+            </div>
+            <div class="tel1">
+                <p>Почта:</p>
+                <p>teahouse@mail.ru</p>
+            </div>
+        </div>
+    </div>
+    <div class="head">
+        <form method="get" th:action="@{/authentication}">
+            <input class="button1" type="submit" value="Вход">
+        </form>
+        <form method="get" th:action="@{/registration}">
+            <input class="button1" type="submit" value="Зарегистрироваться">
+        </form>
+    </div>
+</header>
+<main>
+    <div class="mainP">
+        <div class="formAuthA">
+            <form method="post" th:action="@{/registration}" th:object="${person}">
+                <div class="vh">
+                    <h3>Регистрация</h3>
+                    <a class="btn2" th:href="@{/authentication}" type="submit">Вход</a>
+                </div>
+                <hr>
+                <div class="vh">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                    <label for="login">Введите логин: </label>
+                    <input type="text" th:field="*{login}" id="login">
+                    <div style="color: red" th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></div>
+                    <br>
+                </div>
+                <br>
+                <div class="vh">
+                    <label for="password">Введите пароль: </label>
+                    <input type="password" th:field="*{password}" id="password">
+                    <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+                    <br>
+                </div>
+                <br>
+                    <input class="button2" type="submit" value="Зарегистрироваться">
+            </form>
+        </div>
+    </div>
+</main>
+<footer class="footer">
+    <ul>
+        <li>Компания</li>
+        <li>О компании</li>
+        <li>Новости</li>
+        <li>Политика</li>
+        <li>Публичная оферта</li>
+    </ul>
+    <ul>
+        <li>Информация</li>
+        <li>Как сделать заказ</li>
+        <li>Оплаты</li>
+        <li>Доставка</li>
+        <li>Гарантия</li>
+    </ul>
+    <ul>
+        <li>Популярные категории</li>
+        <li>Какао</li>
+        <li>Кофе</li>
+        <li>Чай</li>
+    </ul>
+    <ul>
+        <li>О чае и кофе</li>
+        <li>Помощь</li>
+        <li>Вопрос-ответ</li>
+    </ul>
+</footer>
+</div>
 </body>
 </html>

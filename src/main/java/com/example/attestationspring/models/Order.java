@@ -23,15 +23,10 @@ public class Order {
     @ManyToOne(fetch = FetchType.EAGER,optional = false)
     private Person person;
 
-
-
     private int count;
     private float price;
     private LocalDateTime dateTime;
-
-
     private Status status;
-
     @PrePersist
     private void init(){
         dateTime = LocalDateTime.now();

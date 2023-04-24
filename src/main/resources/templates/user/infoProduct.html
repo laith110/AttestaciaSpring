@@ -1,20 +1,117 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Информация о товаре</title>
+    <meta charset="UTF-8">
+    <title>Информация о товаре</title>
+    <link th:href="@{/css/index.css}" type="text/css" rel="stylesheet">
+    <link th:href="@{/css/slide.css}" type="text/css" rel="stylesheet">
+    <script th:src="@{/js/script.js}"></script>
+    <script>
+
+    </script>
 </head>
 <body>
-<h3>Информация о товаре: </h3>
-<p th:text="'Наименование :' + ${product.getTitle()}"></p>
-<p th:text="'Описание :' + ${product.getDescription()}"></p>
-<p th:text="'Цена :' + ${product.getPrice()}"></p>
-<p th:text="'Вес :' + ${product.getWeight()}"></p>
-<p th:text="'Склад :' + ${product.getWarehouse()}"></p>
-<p th:text="'Продавец :' + ${product.getSeller()}"></p>
-<p th:text="'Категория товара :' + ${product.getCategory().getName()}"></p>
-<div th:each="img : ${product.getImageList()}">
-  <img th:src="'/img/' + ${img.getFileName()}">
+<div class="body">
+<header class="header">
+    <div class="h1">
+        <div>
+            <h1 style="font-family: 'Neucha', cursive;">Чайный домик</h1>
+        </div>
+        <div class="tel">
+            <div class="tel1">
+                <p>Телефон:</p>
+                <p>8-909-200-08-08</p>
+            </div>
+            <div class="tel1">
+                <p>Почта:</p>
+                <p>teahouse@mail.ru</p>
+            </div>
+        </div>
+    </div>
+    <div class="head">
+        <form method="get" th:action="@{/cart}">
+            <button class="button1" type="submit">Корзина</button>
+        </form>
+        <br>
+        <form method="get" th:action="@{/orders}">
+            <input class="button1" type="submit" value="Заказы">
+        </form>
+        <br>
+        <form method="get" th:action="@{/personal_account}">
+            <button class="button1" type="submit">В личный кабинет</button>
+        </form>
+    </div>
+    <br>
+</header>
+<main class="main">
+    <div class="h2">
+        <h3>Информация о товаре </h3>
+    </div>
+    <div class="q1">
+        <div class="q2">
+            <div class="slideshow-container">
+                <!-- Полноразмерные изображения с числом и текстом подписи -->
+                <div class="mySlides fade">
+                    <img th:src="'/img/' + ${product_personal.imageList[0].getFileName()}" style="width:100%">
+                </div>
+                <div class="mySlides fade">
+                    <img th:src="'/img/' + ${product_personal.imageList[1].getFileName()}" style="width:100%">
+                </div>
+                <div class="mySlides fade">
+                    <img th:src="'/img/' + ${product_personal.imageList[2].getFileName()}" style="width:100%">
+                </div>
+                <!-- Вперед и назад кнопки -->
+                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                <a class="next" onclick="plusSlides(1)">&#10095;</a>
+            </div>
+            <br>
+            <div class="img" th:each="img : ${product_personal.getImageList[0]}">
+                <img class="img1" th:src="'/img/' + ${product_personal.imageList[0].getFileName()}" width="150px">
+                <img class="img1" th:src="'/img/' + ${product_personal.imageList[1].getFileName()}" width="150px">
+                <img class="img1" th:src="'/img/' + ${product_personal.imageList[2].getFileName()}" width="150px">
+            </div>
+        </div>
+        <div class="q3">
+            <div class="editI">
+                <p th:text="'Наименование :' + ${product_personal.getTitle()}"></p>
+                <p th:text="'Описание :' + ${product_personal.getDescription()}"></p>
+                <p th:text="'Цена :' + ${product_personal.getPrice()}"></p>
+                <p th:text="'Вес :' + ${product_personal.getWeight()}"></p>
+                <p th:text="'Склад :' + ${product_personal.getWarehouse()}"></p>
+                <p th:text="'Продавец :' + ${product_personal.getSeller()}"></p>
+                <p th:text="'Категория товара :' + ${product_personal.getCategory().getName()}"></p>
+            </div>
+        </div>
+    </div>
+</main>
+<footer class="footer">
+
+    <ul>
+        <li>Компания</li>
+        <li>О компании</li>
+        <li>Новости</li>
+        <li>Политика</li>
+        <li>Публичная оферта</li>
+    </ul>
+    <ul>
+        <li>Информация</li>
+        <li>Как сделать заказ</li>
+        <li>Оплаты</li>
+        <li>Доставка</li>
+        <li>Гарантия</li>
+    </ul>
+    <ul>
+        <li>Популярные категории</li>
+        <li>Какао</li>
+        <li>Кофе</li>
+        <li>Чай</li>
+    </ul>
+    <ul>
+        <li>О чае и кофе</li>
+        <li>Помощь</li>
+        <li>Вопрос-ответ</li>
+    </ul>
+</footer>
 </div>
 </body>
+
 </html>

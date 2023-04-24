@@ -3,24 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <title>Корзина</title>
+    <link th:href="@{/css/index.css}" type="text/css" rel="stylesheet">
 </head>
 <body>
-<h3>Корзина товаров</h3>
-<br>
-<form method="get" th:action="@{/personal_account}">
-    <button type="submit">В личный кабинет</button>
-</form>
-
-<div th:each="product:${cart_product}">
-    <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="300px">
+<div class="body">
+<header class="header">
+    <div class="h1">
+        <div>
+            <h1 style="font-family: 'Neucha', cursive;">Чайный домик</h1>
+        </div>
+        <div class="tel">
+            <div class="tel1">
+                <p>Телефон:</p>
+                <p>8-909-200-08-08</p>
+            </div>
+            <div class="tel1">
+                <p>Почта:</p>
+                <p>teahouse@mail.ru</p>
+            </div>
+        </div>
+    </div>
+    <div class="head">
+        <form method="get" th:action="@{/cart}">
+            <button class="button1" type="submit">Корзина</button>
+        </form>
+        <br>
+        <form method="get" th:action="@{/orders}">
+            <input class="button1" type="submit" value="Заказы">
+        </form>
+        <br>
+        <form method="get" th:action="@{/personal_account}">
+            <button class="button1" type="submit">В личный кабинет</button>
+        </form>
+    </div>
     <br>
-    <a th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"></a>
-    <p th:text="'Цена: '+ ${product.getPrice()} + ' руб./' + ${product.getWeight()} + ' гр.'"></p>
-    <a th:href="@{/cart/delete/{id}(id=${product.getId()})}">Удалить</a>
-    <hr>
+</header>
+<main class="main">
+    <div class="h2">
+        <h3>Корзина товаров</h3>
+    </div>
+    <div class="cartProd">
+        <div th:each="product:${cart_product}">
+            <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="200px">
+            <br>
+            <a th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"></a>
+            <p th:text="'Цена: '+ ${product.getPrice()} + ' руб./' + ${product.getWeight()} + ' гр.'"></p>
+
+            <form method="get" th:action="@{/cart/delete/{id}(id=${product.getId()})}">
+                <button class="button" type="submit">Удалить</button>
+            </form>
+            <hr>
+        </div>
+        <h3 th:text="'Итоговая цена: ' + ${price}"></h3>
+        <br>
+
+        <form th:action="@{/order/create}">
+            <button class="button" type="submit">Оформить заказ</button>
+        </form>
+    </div>
+</main>
+<footer class="footer">
+
+    <ul>
+        <li>Компания</li>
+        <li>О компании</li>
+        <li>Новости</li>
+        <li>Политика</li>
+        <li>Публичная оферта</li>
+    </ul>
+    <ul>
+        <li>Информация</li>
+        <li>Как сделать заказ</li>
+        <li>Оплаты</li>
+        <li>Доставка</li>
+        <li>Гарантия</li>
+    </ul>
+    <ul>
+        <li>Популярные категории</li>
+        <li>Какао</li>
+        <li>Кофе</li>
+        <li>Чай</li>
+    </ul>
+    <ul>
+        <li>О чае и кофе</li>
+        <li>Помощь</li>
+        <li>Вопрос-ответ</li>
+    </ul>
+</footer>
 </div>
-<h3 th:text="'Итоговая цена: ' + ${price}"></h3>
-<br>
-<a href="/order/create">Оформить заказ</a>
 </body>
 </html>
